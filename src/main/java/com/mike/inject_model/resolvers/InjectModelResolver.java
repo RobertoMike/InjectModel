@@ -40,6 +40,10 @@ public class InjectModelResolver implements HandlerMethodArgumentResolver {
 
     private static String suffixRepository = "Repository";
 
+    public static void setNotFoundException(Class<NotFoundContract> exception) {
+        InjectModelResolver.notFoundContract = exception;
+    }
+
     public static void setSuffixRepository(String suffixRepository) {
         InjectModelResolver.suffixRepository = suffixRepository;
     }
