@@ -10,7 +10,7 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.Repository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -35,7 +35,7 @@ public class InjectModelResolver implements HandlerMethodArgumentResolver {
     ApplicationContext applicationContext;
     protected static Class<? extends NotFoundContract> notFoundContract = NotFoundException.class;
 
-    public static Set<Class<? extends JpaRepository>> list;
+    public static Set<Class<? extends Repository>> list;
     private static String[] packagePaths;
 
     private static String suffixRepository = "Repository";
@@ -65,13 +65,13 @@ public class InjectModelResolver implements HandlerMethodArgumentResolver {
 
         if (list == null) {
             Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packagePaths));
-            list = reflections.getSubTypesOf(JpaRepository.class);
+            list = reflections.getSubTypesOf(Repository.class);
         }
 
         String[] packages = parameter.getGenericParameterType().toString().split("[.]");
         String model = packages[packages.length - 1];
 
-        Optional<Class<? extends JpaRepository>> repository = list
+        Optional<Class<? extends Repository>> repository = list
                 .stream()
                 .filter((classes) -> Arrays.stream(packagePaths).anyMatch(packagePath ->
                         classes.getName().contains(
@@ -98,10 +98,10 @@ public class InjectModelResolver implements HandlerMethodArgumentResolver {
         Class<?> paramType = annot.paramType();
 
         Object instance = applicationContext.getBean(repository.get());
-        Method callable = instance.getClass().getMethod(annot.method(), paramType);
+        Method callable = getMethod(instance, annot.method(), paramType);
         Object result = callable.invoke(instance, parse(id.get(), paramType));
 
-        if (result instanceof Optional resultOptional) {
+        if (result instanceof Optional<?> resultOptional) {
             if (resultOptional.isEmpty()) {
                 if (annot.nullable()) {
                     return null;
@@ -139,5 +139,13 @@ public class InjectModelResolver implements HandlerMethodArgumentResolver {
 
     public Exception notFound(String message) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return notFoundContract.getConstructor(String.class).newInstance(message);
+    }
+
+    private Method getMethod(Object instance, String method, Class<?> paramType) throws NoSuchMethodException {
+        try {
+            return instance.getClass().getMethod(method, paramType);
+        } catch (Exception e) {
+            return instance.getClass().getMethod(method, Object.class);
+        }
     }
 }
