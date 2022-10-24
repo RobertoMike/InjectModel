@@ -11,12 +11,13 @@
     <groupId>com.mike</groupId>
     <artifactId>inject-model</artifactId>
     <version>0.0.2</version>
+    <packaging>jar</packaging>
     <name>InjectModel</name>
     <description>InjectModel</description>
     <licenses>
         <license>
-            <name>Apache License</name>
-            <url>https://opensource.org/licenses/Apache-2.0</url>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
