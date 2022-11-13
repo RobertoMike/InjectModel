@@ -36,7 +36,7 @@ import com.mike.inject_model.resolvers.InjectModelResolver;
 public class InjectModelConfig {
     private InjectModelConfig() {
         // Define package paths
-        InjectModelResolver.setPackagePath(
+        InjectModelResolver.setPackagePaths(
                 Repository.class.getPackage().getName()
         );
         // Define Suffix name of repository
@@ -51,14 +51,15 @@ public class InjectModelConfig {
 
 ```java
 import com.mike.inject_model.resolvers.annotations.InjectModel;
+
 public class Controller {
     public void method(
         @InjectModel(
                 value = "path_variable",
-                paramType = String.class, // default Long | supported Long | String | UUID
+                paramType = String.class, // default Long | supported Long, Integer, String, UUID
                 message = "Message exception",
                 method = "methodRepository", // default findById
-                nullable = true // Permit return null value and non throw exception 
+                nullable = true // Permit return null value and not throw exception 
         ) Model model
     ){}
 }
