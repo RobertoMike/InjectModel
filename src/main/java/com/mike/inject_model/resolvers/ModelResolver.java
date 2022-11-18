@@ -98,7 +98,6 @@ public abstract class ModelResolver {
 
             throw new Exception("Class " + paramType + " not supported");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new Exception("Type of value not supported for " + paramType);
         }
     }
