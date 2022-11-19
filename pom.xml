@@ -118,6 +118,14 @@
                         <arg>loopback</arg>
                     </gpgArguments>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-asc-files</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -147,12 +155,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>release</id>
-            <properties>
-                <gpg.skip>false</gpg.skip>
-            </properties>
-        </profile>
-    </profiles>
 </project>
