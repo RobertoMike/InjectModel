@@ -84,7 +84,7 @@ public abstract class ModelResolver {
     /**
      * @param model simple name of class
      * @return repository from model simple name
-     * @throws Exception
+     * @throws Exception emit exception if repository is not founded
      */
     public Class<? extends Repository> findRepositoryByModel(String model) throws Exception {
         loadRepositories();
@@ -183,7 +183,7 @@ public abstract class ModelResolver {
      * @param message  error message
      * @param model    the name of model
      * @return return the final object unwrapped from optional
-     * @throws Exception
+     * @throws Exception emit exception if model is empty and nullable is false
      */
     public Object checkAndReturnValue(Object result, boolean nullable, String message, String model) throws Exception {
         if (result instanceof Optional resultOptional) {
@@ -204,8 +204,8 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param message
-     * @param model
+     * @param message message to show on throw errors
+     * @param model   simple name model
      * @return custom message
      */
     public String errorMessage(String message, String model) {
@@ -223,7 +223,7 @@ public abstract class ModelResolver {
      * @param method         method to search
      * @param model          the name of model
      * @return return the result of searching
-     * @throws Exception
+     * @throws Exception emit exception if model is empty and nullable is false
      */
     @Nullable
     public Object getModelResultFromRequest(
@@ -259,7 +259,7 @@ public abstract class ModelResolver {
      * @param method    searched method
      * @param paramType type of param
      * @return method for searching on repository
-     * @throws NoSuchMethodException
+     * @throws NoSuchMethodException error getting method from class
      */
     public Method getMethod(Repository instance, String method, Class<?> paramType) throws NoSuchMethodException {
         try {
@@ -272,7 +272,7 @@ public abstract class ModelResolver {
     /**
      * @param message for exception
      * @return exception
-     * @throws Exception
+     * @throws Exception if something doesn't work
      */
     public ExceptionContract notFound(String message) throws Exception {
         return notFoundContract.getConstructor(String.class).newInstance(message);

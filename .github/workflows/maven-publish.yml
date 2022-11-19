@@ -36,8 +36,9 @@ jobs:
           mvn \
             --no-transfer-progress \
             --batch-mode \
-            -P release
-            -e
+            -P release \
+            -e \
+            -X \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             clean:clean deploy:deploy
         env:
