@@ -21,13 +21,30 @@ public class InjectModelResolver extends ModelResolver implements HandlerMethodA
     HttpServletRequest request;
     public static CustomLambda transformValue = (value -> value);
 
+    /**
+     * @param methodParameter to inspect if the parameter has inject model annotation
+     * @return a boolean
+     */
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
         return methodParameter.hasParameterAnnotation(InjectModel.class);
     }
 
+    /**
+     * @param parameter     annotated parameter
+     * @param mavContainer  model and view container
+     * @param webRequest    native web request
+     * @param binderFactory binder factory
+     * @return the searched object (Model) from repository with the method and path
+     * @throws Exception of wrong use of annotation
+     */
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, @NonNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(
+            MethodParameter parameter,
+            ModelAndViewContainer mavContainer,
+            @NonNull NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory
+    ) throws Exception {
         InjectModel annot = parameter.getParameterAnnotation(InjectModel.class);
 
         assert annot != null;

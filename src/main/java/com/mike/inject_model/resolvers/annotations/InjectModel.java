@@ -11,7 +11,7 @@ public @interface InjectModel {
 
     boolean nullable() default false;
 
-    String message() default "Model not found";
+    String message() default "Model [model] not found";
 
     Class<?> paramType() default Long.class;
 

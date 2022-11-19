@@ -15,11 +15,17 @@ public class AutoConfiguration implements WebMvcConfigurer {
 
     ApplicationContext applicationContext;
 
+    /**
+     * @param argumentResolvers for register the inject model
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(injectModel());
     }
 
+    /**
+     * @return create an inject model with application context
+     */
     private HandlerMethodArgumentResolver injectModel() {
         return applicationContext.getBean(InjectModelResolver.class);
     }

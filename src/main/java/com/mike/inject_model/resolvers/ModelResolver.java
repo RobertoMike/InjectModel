@@ -36,14 +36,23 @@ public abstract class ModelResolver {
         InjectModelResolver.notFoundContract = exception;
     }
 
+    /**
+     * @param packagePaths
+     */
     public static void setPackagePaths(String... packagePaths) {
         ModelResolver.packagePaths = packagePaths;
     }
+
+    /**
+     * @return all packages paths registered on model resolver
+     */
     public static String[] getPackagePaths() {
         return ModelResolver.packagePaths;
     }
 
-    // to search repositories if list is empty
+    /**
+     * to search repositories if list is empty
+     */
     public void loadRepositories() {
         if (list == null) {
             Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packagePaths));
@@ -51,11 +60,20 @@ public abstract class ModelResolver {
         }
     }
 
+    /**
+     * @param model
+     * @return
+     */
     public String getNameModelFromClass(Type model) {
         String[] packages = model.toString().split("[.]");
         return packages[packages.length - 1];
     }
 
+    /**
+     * @param model
+     * @return
+     * @throws Exception
+     */
     public Class<? extends Repository> findRepositoryByModel(String model) throws Exception {
         loadRepositories();
 
@@ -74,10 +92,19 @@ public abstract class ModelResolver {
         return repository.get();
     }
 
+    /**
+     * @param suffixRepository
+     */
     public static void setSuffixRepository(String suffixRepository) {
         ModelResolver.suffixRepository = suffixRepository;
     }
 
+    /**
+     * @param value
+     * @param paramType
+     * @return
+     * @throws Exception
+     */
     public Object parse(String value, Class<?> paramType) throws Exception {
         try {
             if (paramType.equals(Long.class)) {
@@ -102,17 +129,33 @@ public abstract class ModelResolver {
         }
     }
 
+    /**
+     * @param method
+     * @param value
+     * @param paramType
+     * @param repository
+     * @return
+     * @throws Exception find the model
+     */
     public Object findModel(
             String method,
             String value,
             Class<?> paramType,
             Class<? extends Repository> repository
     ) throws Exception {
-        Object instance = applicationContext.getBean(repository);
+        Repository instance = applicationContext.getBean(repository);
         Method callable = getMethod(instance, method, paramType);
         return callable.invoke(instance, parse(value, paramType));
     }
 
+    /**
+     * @param method
+     * @param value
+     * @param paramType
+     * @param model
+     * @return
+     * @throws Exception find the model and repository
+     */
     public Object findModel(
             String method,
             String value,
@@ -129,6 +172,14 @@ public abstract class ModelResolver {
         );
     }
 
+    /**
+     * @param result   result from repository
+     * @param nullable if the result can be nullable and not throw error
+     * @param message  error message
+     * @param model
+     * @return return the final object unwrapped from optional
+     * @throws Exception
+     */
     public Object checkAndReturnValue(Object result, boolean nullable, String message, String model) throws Exception {
         if (result instanceof Optional resultOptional) {
             if (resultOptional.isEmpty()) {
@@ -147,14 +198,28 @@ public abstract class ModelResolver {
         return result;
     }
 
+    /**
+     * @param message
+     * @param model
+     * @return custom message
+     */
     public String errorMessage(String message, String model) {
         return message.replace("[model]", model);
     }
 
-    public interface CustomLambda {
-        String apply(String value) throws Exception;
-    }
 
+    /**
+     * @param nullable       if returned value can be null
+     * @param nameValue      name of value annotation
+     * @param nameParameter  name of parameter
+     * @param paramType      parameter type (Model)
+     * @param transformValue transform the current value with custom lambda function
+     * @param request        the current request to search value
+     * @param method         method to search
+     * @param model          the name of model
+     * @return return the result of searching
+     * @throws Exception
+     */
     @Nullable
     public Object getModelResultFromRequest(
             boolean nullable,
@@ -184,8 +249,14 @@ public abstract class ModelResolver {
         );
     }
 
-
-    public Method getMethod(Object instance, String method, Class<?> paramType) throws NoSuchMethodException {
+    /**
+     * @param instance  current instance of type repository
+     * @param method    searched method
+     * @param paramType type of param
+     * @return method for searching on repository
+     * @throws NoSuchMethodException
+     */
+    public Method getMethod(Repository instance, String method, Class<?> paramType) throws NoSuchMethodException {
         try {
             return instance.getClass().getMethod(method, paramType);
         } catch (Exception e) {
@@ -193,7 +264,19 @@ public abstract class ModelResolver {
         }
     }
 
+    /**
+     * @param message
+     * @return exception
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public NotFoundContract notFound(String message) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return notFoundContract.getConstructor(String.class).newInstance(message);
+    }
+
+    public interface CustomLambda {
+        String apply(String value) throws Exception;
     }
 }
