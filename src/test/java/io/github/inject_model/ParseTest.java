@@ -1,6 +1,6 @@
-package com.mike.inject_model;
+package io.github.inject_model;
 
-import com.mike.inject_model.resolvers.InjectModelResolver;
+import io.github.inject_model.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +50,7 @@ public class ParseTest extends BasicTest {
                 injectModelResolver.parse("6", Long.class)
         );
     }
+
     @Test
     void parseUUID() throws Exception {
         UUID uuid = UUID.randomUUID();
@@ -60,6 +61,7 @@ public class ParseTest extends BasicTest {
                 injectModelResolver.parse(uuid.toString(), UUID.class)
         );
     }
+
     @Test
     void parseString() throws Exception {
         InjectModelResolver injectModelResolver = new InjectModelResolver(request);

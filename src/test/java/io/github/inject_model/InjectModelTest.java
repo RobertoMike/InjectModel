@@ -1,9 +1,9 @@
-package com.mike.inject_model;
+package io.github.inject_model;
 
-import com.mike.inject_model.models.Model;
-import com.mike.inject_model.repositories.ModelRepository;
-import com.mike.inject_model.resolvers.InjectModelResolver;
-import com.mike.inject_model.resolvers.annotations.InjectModel;
+import io.github.inject_model.models.Model;
+import io.github.inject_model.repositories.ModelRepository;
+import io.github.inject_model.resolvers.InjectModelResolver;
+import io.github.inject_model.resolvers.annotations.InjectModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

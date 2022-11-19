@@ -1,6 +1,6 @@
-package com.mike.inject_model.config;
+package io.github.inject_model.config;
 
-import com.mike.inject_model.resolvers.InjectModelResolver;
+import io.github.inject_model.resolvers.InjectModelResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;

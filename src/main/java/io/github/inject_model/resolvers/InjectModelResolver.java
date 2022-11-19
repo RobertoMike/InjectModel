@@ -1,6 +1,6 @@
-package com.mike.inject_model.resolvers;
+package io.github.inject_model.resolvers;
 
-import com.mike.inject_model.resolvers.annotations.InjectModel;
+import io.github.inject_model.resolvers.annotations.InjectModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

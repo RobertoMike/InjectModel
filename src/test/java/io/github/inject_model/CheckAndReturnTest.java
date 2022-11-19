@@ -1,7 +1,7 @@
-package com.mike.inject_model;
+package io.github.inject_model;
 
-import com.mike.inject_model.exceptions.NotFoundException;
-import com.mike.inject_model.resolvers.InjectModelResolver;
+import io.github.inject_model.exceptions.NotFoundException;
+import io.github.inject_model.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

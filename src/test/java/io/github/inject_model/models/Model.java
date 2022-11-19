@@ -1,4 +1,4 @@
-package com.mike.inject_model.models;
+package io.github.inject_model.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
