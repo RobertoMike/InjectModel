@@ -6,6 +6,9 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Class for resolve path variable
+ */
 @AllArgsConstructor
 public class ResolverPathUtil {
 

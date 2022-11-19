@@ -1,6 +1,6 @@
 package com.mike.inject_model.resolvers;
 
-import com.mike.inject_model.exceptions.NotFoundContract;
+import com.mike.inject_model.exceptions.ExceptionContract;
 import com.mike.inject_model.exceptions.NotFoundException;
 import com.mike.inject_model.exceptions.ParamNotFoundException;
 import com.mike.inject_model.exceptions.RepositoryNotFoundException;
@@ -14,11 +14,13 @@ import org.springframework.data.repository.Repository;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.*;
 
+/**
+ * Class with basic methods for resolvers to be extended
+ */
 @Setter
 @SuppressWarnings("ALL")
 public abstract class ModelResolver {
@@ -30,14 +32,17 @@ public abstract class ModelResolver {
 
     protected static String suffixRepository = "Repository";
 
-    protected static Class<? extends NotFoundContract> notFoundContract = NotFoundException.class;
+    protected static Class<? extends ExceptionContract> notFoundContract = NotFoundException.class;
 
-    public static void setNotFoundException(Class<NotFoundContract> exception) {
+    /**
+     * @param exception set custom exception for NotFoundException
+     */
+    public static void setNotFoundException(Class<ExceptionContract> exception) {
         InjectModelResolver.notFoundContract = exception;
     }
 
     /**
-     * @param packagePaths
+     * @param packagePaths for settings package paths
      */
     public static void setPackagePaths(String... packagePaths) {
         ModelResolver.packagePaths = packagePaths;
@@ -51,6 +56,13 @@ public abstract class ModelResolver {
     }
 
     /**
+     * @param suffixRepository set suffix repository when search with model name
+     */
+    public static void setSuffixRepository(String suffixRepository) {
+        ModelResolver.suffixRepository = suffixRepository;
+    }
+
+    /**
      * to search repositories if list is empty
      */
     public void loadRepositories() {
@@ -61,8 +73,8 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param model
-     * @return
+     * @param model class
+     * @return extract simple name from class
      */
     public String getNameModelFromClass(Type model) {
         String[] packages = model.toString().split("[.]");
@@ -70,8 +82,8 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param model
-     * @return
+     * @param model simple name of class
+     * @return repository from model simple name
      * @throws Exception
      */
     public Class<? extends Repository> findRepositoryByModel(String model) throws Exception {
@@ -93,17 +105,10 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param suffixRepository
-     */
-    public static void setSuffixRepository(String suffixRepository) {
-        ModelResolver.suffixRepository = suffixRepository;
-    }
-
-    /**
-     * @param value
-     * @param paramType
-     * @return
-     * @throws Exception
+     * @param value     value to parse
+     * @param paramType class used to parse the value
+     * @return object parsed
+     * @throws Exception can throw error if is not valid classType or invalid value to class
      */
     public Object parse(String value, Class<?> paramType) throws Exception {
         try {
@@ -130,11 +135,11 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param method
-     * @param value
-     * @param paramType
-     * @param repository
-     * @return
+     * @param method     for repository
+     * @param value      for search on repository
+     * @param paramType  type of object to search
+     * @param repository the repository use for search
+     * @return object getted from repository
      * @throws Exception find the model
      */
     public Object findModel(
@@ -149,11 +154,11 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param method
-     * @param value
-     * @param paramType
-     * @param model
-     * @return
+     * @param method    for repository
+     * @param value     for search on repository
+     * @param paramType type of object to search
+     * @param model     the name of model
+     * @return object getted from repository
      * @throws Exception find the model and repository
      */
     public Object findModel(
@@ -176,7 +181,7 @@ public abstract class ModelResolver {
      * @param result   result from repository
      * @param nullable if the result can be nullable and not throw error
      * @param message  error message
-     * @param model
+     * @param model    the name of model
      * @return return the final object unwrapped from optional
      * @throws Exception
      */
@@ -265,14 +270,11 @@ public abstract class ModelResolver {
     }
 
     /**
-     * @param message
+     * @param message for exception
      * @return exception
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
+     * @throws Exception
      */
-    public NotFoundContract notFound(String message) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public ExceptionContract notFound(String message) throws Exception {
         return notFoundContract.getConstructor(String.class).newInstance(message);
     }
 

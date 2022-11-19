@@ -9,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+/**
+ * Class for automatic injection on argument resolvers
+ */
 @AllArgsConstructor
 @Configuration
 public class AutoConfiguration implements WebMvcConfigurer {

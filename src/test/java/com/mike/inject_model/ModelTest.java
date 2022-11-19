@@ -1,6 +1,6 @@
 package com.mike.inject_model;
 
-import com.mike.inject_model.exceptions.NotFoundContract;
+import com.mike.inject_model.exceptions.ExceptionContract;
 import com.mike.inject_model.exceptions.ParamNotFoundException;
 import com.mike.inject_model.exceptions.RepositoryNotFoundException;
 import com.mike.inject_model.models.Model;
@@ -33,7 +33,7 @@ class ModelTest extends BasicTest {
     void getNotFoundException() throws Exception {
         String message = "Not found";
 
-        NotFoundContract notFoundContract = new InjectModelResolver(request).notFound(message);
+        ExceptionContract notFoundContract = new InjectModelResolver(request).notFound(message);
 
         Assertions.assertNotNull(notFoundContract);
         Assertions.assertEquals(notFoundContract.getMessage(), message);
