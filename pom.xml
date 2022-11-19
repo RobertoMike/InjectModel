@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.roberto-marcello</groupId>
-    <artifactId>inject-model</artifactId>
+    <artifactId>inject_model</artifactId>
     <version>0.1.5</version>
     <packaging>jar</packaging>
     <name>InjectModel</name>
