@@ -33,6 +33,8 @@ jobs:
 
       - name: Build Maven Project
         run: mvn \
+          --no-transfer-progress \
+          --batch-mode \
           -P release \
           -e \
           -X \
