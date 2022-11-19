@@ -41,9 +41,10 @@
         <url>https://github.com/Roberto-Marcello/InjectModel/tree/master</url>
     </scm>
     <properties>
+        <gpg.skip>true</gpg.skip>
         <java.version>17</java.version>
         <spring.version>5.2.6.RELEASE</spring.version>
-        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.7.4</spring.boot.version>
     </properties>
     <dependencies>
         <dependency>
@@ -146,5 +147,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>
