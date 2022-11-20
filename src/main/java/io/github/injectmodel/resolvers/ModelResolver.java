@@ -1,10 +1,10 @@
-package io.github.inject_model.resolvers;
+package io.github.injectmodel.resolvers;
 
-import io.github.inject_model.exceptions.ExceptionContract;
-import io.github.inject_model.exceptions.NotFoundException;
-import io.github.inject_model.exceptions.ParamNotFoundException;
-import io.github.inject_model.exceptions.RepositoryNotFoundException;
-import io.github.inject_model.utils.ResolverPathUtil;
+import io.github.injectmodel.exceptions.ExceptionContract;
+import io.github.injectmodel.exceptions.NotFoundException;
+import io.github.injectmodel.exceptions.ParamNotFoundException;
+import io.github.injectmodel.exceptions.RepositoryNotFoundException;
+import io.github.injectmodel.utils.ResolverPathUtil;
 import lombok.Setter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
@@ -278,7 +278,15 @@ public abstract class ModelResolver {
         return notFoundContract.getConstructor(String.class).newInstance(message);
     }
 
+    /**
+     * For custom lambad
+     */
     public interface CustomLambda {
+        /**
+         * @param value from path
+         * @return transforme value
+         * @throws Exception can be throw error
+         */
         String apply(String value) throws Exception;
     }
 }

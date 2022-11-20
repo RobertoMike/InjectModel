@@ -1,6 +1,6 @@
-package io.github.inject_model;
+package io.github.injectmodel;
 
-import io.github.inject_model.resolvers.InjectModelResolver;
+import io.github.injectmodel.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,11 @@
-package io.github.inject_model;
+package io.github.injectmodel;
 
-import io.github.inject_model.exceptions.ExceptionContract;
-import io.github.inject_model.exceptions.ParamNotFoundException;
-import io.github.inject_model.exceptions.RepositoryNotFoundException;
-import io.github.inject_model.models.Model;
-import io.github.inject_model.repositories.ModelRepository;
-import io.github.inject_model.resolvers.InjectModelResolver;
+import io.github.injectmodel.exceptions.ExceptionContract;
+import io.github.injectmodel.exceptions.ParamNotFoundException;
+import io.github.injectmodel.exceptions.RepositoryNotFoundException;
+import io.github.injectmodel.models.Model;
+import io.github.injectmodel.repositories.ModelRepository;
+import io.github.injectmodel.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

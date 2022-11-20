@@ -1,4 +1,4 @@
-package io.github.inject_model;
+package io.github.injectmodel;
 
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;

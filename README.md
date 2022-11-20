@@ -30,8 +30,8 @@ Inject model search repository reading name of model and add declared suffix
 Example: ModelRepository
 
 ```java
-import exceptions.io.github.inject_model.NotFoundException;
-import resolvers.io.github.inject_model.InjectModelResolver;
+import exceptions.io.github.injectmodel.NotFoundException;
+import resolvers.io.github.injectmodel.InjectModelResolver;
 
 @Configuration
 public class InjectModelConfig {
@@ -51,7 +51,7 @@ public class InjectModelConfig {
 ## Parameters of InjectModel
 
 ```java
-import annotations.resolvers.io.github.inject_model.InjectModel;
+import annotations.resolvers.io.github.injectmodel.InjectModel;
 
 public class Controller {
     public void method(

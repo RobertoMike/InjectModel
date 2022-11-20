@@ -1,4 +1,4 @@
-package io.github.inject_model.resolvers.annotations;
+package io.github.injectmodel.resolvers.annotations;
 
 import java.lang.annotation.*;
 

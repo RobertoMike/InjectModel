@@ -1,6 +1,6 @@
-package io.github.inject_model.repositories;
+package io.github.injectmodel.repositories;
 
-import io.github.inject_model.models.Model;
+import io.github.injectmodel.models.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
