@@ -1,4 +1,4 @@
-package io.github.injectmodel;
+package io.roberto_marcello.injectmodel;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

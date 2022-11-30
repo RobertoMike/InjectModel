@@ -1,4 +1,4 @@
-package io.github.injectmodel.exceptions;
+package io.roberto_marcello.injectmodel.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Exception
  */
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class RepositoryNotFoundException extends ExceptionContract {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class NotFoundException extends ExceptionContract {
 
     /**
      * @param reason used to specify error
      */
-    public RepositoryNotFoundException(String reason) {
+    public NotFoundException(String reason) {
         super(reason);
     }
 }

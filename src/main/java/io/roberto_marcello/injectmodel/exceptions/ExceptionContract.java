@@ -1,4 +1,4 @@
-package io.github.injectmodel.exceptions;
+package io.roberto_marcello.injectmodel.exceptions;
 
 /**
  * Basic class for exceptions

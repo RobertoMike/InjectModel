@@ -1,4 +1,4 @@
-package io.github.injectmodel.utils;
+package io.roberto_marcello.injectmodel.utils;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.servlet.HandlerMapping;
