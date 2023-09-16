@@ -8,9 +8,9 @@
         <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.github.roberto-marcello.injectmodel</groupId>
+    <groupId>io.github.roberto_marcello</groupId>
     <artifactId>inject_model</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9</version>
     <packaging>jar</packaging>
     <name>InjectModel</name>
     <description>InjectModel</description>

@@ -1,11 +1,11 @@
-package io.roberto_marcello.injectmodel;
+package io.github.roberto_marcello;
 
-import io.roberto_marcello.injectmodel.exceptions.ExceptionContract;
-import io.roberto_marcello.injectmodel.exceptions.ParamNotFoundException;
-import io.roberto_marcello.injectmodel.exceptions.RepositoryNotFoundException;
-import io.roberto_marcello.injectmodel.models.Model;
-import io.roberto_marcello.injectmodel.repositories.ModelRepository;
-import io.roberto_marcello.injectmodel.resolvers.InjectModelResolver;
+import io.github.roberto_marcello.exceptions.ExceptionContract;
+import io.github.roberto_marcello.exceptions.ParamNotFoundException;
+import io.github.roberto_marcello.exceptions.RepositoryNotFoundException;
+import io.github.roberto_marcello.models.Model;
+import io.github.roberto_marcello.repositories.ModelRepository;
+import io.github.roberto_marcello.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

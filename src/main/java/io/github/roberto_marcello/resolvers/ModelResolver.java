@@ -1,10 +1,10 @@
-package io.roberto_marcello.injectmodel.resolvers;
+package io.github.roberto_marcello.resolvers;
 
-import io.roberto_marcello.injectmodel.exceptions.ExceptionContract;
-import io.roberto_marcello.injectmodel.exceptions.NotFoundException;
-import io.roberto_marcello.injectmodel.exceptions.ParamNotFoundException;
-import io.roberto_marcello.injectmodel.exceptions.RepositoryNotFoundException;
-import io.roberto_marcello.injectmodel.utils.ResolverPathUtil;
+import io.github.roberto_marcello.exceptions.ExceptionContract;
+import io.github.roberto_marcello.exceptions.NotFoundException;
+import io.github.roberto_marcello.exceptions.ParamNotFoundException;
+import io.github.roberto_marcello.exceptions.RepositoryNotFoundException;
+import io.github.roberto_marcello.utils.ResolverPathUtil;
 import lombok.Setter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;

@@ -1,6 +1,6 @@
-package io.roberto_marcello.injectmodel;
+package io.github.roberto_marcello;
 
-import io.roberto_marcello.injectmodel.resolvers.InjectModelResolver;
+import io.github.roberto_marcello.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package io.roberto_marcello.injectmodel.resolvers;
+package io.github.roberto_marcello.resolvers;
 
-import io.roberto_marcello.injectmodel.resolvers.annotations.InjectModel;
+import io.github.roberto_marcello.resolvers.annotations.InjectModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

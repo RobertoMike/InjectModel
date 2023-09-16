@@ -1,4 +1,4 @@
-package io.roberto_marcello.injectmodel.exceptions;
+package io.github.roberto_marcello.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
