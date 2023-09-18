@@ -1,4 +1,4 @@
-package io.github.roberto_marcello.exceptions;
+package io.github.robertomike.exceptions;
 
 /**
  * Basic class for exceptions

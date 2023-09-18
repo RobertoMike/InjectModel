@@ -1,4 +1,4 @@
-package io.github.roberto_marcello.models;
+package io.github.robertomike.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

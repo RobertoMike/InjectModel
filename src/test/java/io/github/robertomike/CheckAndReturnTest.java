@@ -1,7 +1,7 @@
-package io.github.roberto_marcello;
+package io.github.robertomike;
 
-import io.github.roberto_marcello.exceptions.NotFoundException;
-import io.github.roberto_marcello.resolvers.InjectModelResolver;
+import io.github.robertomike.exceptions.NotFoundException;
+import io.github.robertomike.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class CheckAndReturnTest extends BasicTest {
     @Test
     void checkAndReturnOptionalValue() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Object result = injectModelResolver.checkAndReturnValue(
                 Optional.of(5),
@@ -27,7 +27,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void checkAndReturnOptionalEmptyNullableResult() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Object result = injectModelResolver.checkAndReturnValue(
                 Optional.empty(),
@@ -41,7 +41,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void throwErrorOfEmptyOptional() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertThrows(
                 NotFoundException.class,
@@ -57,7 +57,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void throwErrorOfNullableValue() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertThrows(
                 NotFoundException.class,
@@ -73,7 +73,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void checkAndReturnValue() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertEquals(
                 injectModelResolver.checkAndReturnValue(

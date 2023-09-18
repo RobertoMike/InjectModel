@@ -1,6 +1,6 @@
-package io.github.roberto_marcello.resolvers;
+package io.github.robertomike.resolvers;
 
-import io.github.roberto_marcello.resolvers.annotations.InjectModel;
+import io.github.robertomike.resolvers.annotations.InjectModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -11,8 +11,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Class for resolver the value
  */
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 public class InjectModelResolver extends ModelResolver implements HandlerMethodArgumentResolver {
 
-    HttpServletRequest request;
     public static CustomLambda transformValue = (value -> value);
 
     /**
@@ -52,7 +49,7 @@ public class InjectModelResolver extends ModelResolver implements HandlerMethodA
 
         assert annot != null;
 
-        String model = getNameModelFromClass(parameter.getGenericParameterType());
+        String model = parameter.getParameterType().getSimpleName();
 
         Object result = getModelResultFromRequest(
                 annot.nullable(),
@@ -60,7 +57,7 @@ public class InjectModelResolver extends ModelResolver implements HandlerMethodA
                 parameter.getParameterName(),
                 annot.paramType(),
                 transformValue,
-                request,
+                webRequest,
                 annot.method(),
                 model
         );

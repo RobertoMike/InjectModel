@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.roberto_marcello.config.AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.robertomike.config.AutoConfiguration

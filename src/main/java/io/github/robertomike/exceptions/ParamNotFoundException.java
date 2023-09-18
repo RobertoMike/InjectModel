@@ -1,4 +1,4 @@
-package io.github.roberto_marcello.exceptions;
+package io.github.robertomike.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

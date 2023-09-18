@@ -1,4 +1,4 @@
-package io.github.roberto_marcello.resolvers.annotations;
+package io.github.robertomike.resolvers.annotations;
 
 import java.lang.annotation.*;
 

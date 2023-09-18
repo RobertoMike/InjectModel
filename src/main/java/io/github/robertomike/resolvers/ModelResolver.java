@@ -1,21 +1,20 @@
-package io.github.roberto_marcello.resolvers;
+package io.github.robertomike.resolvers;
 
-import io.github.roberto_marcello.exceptions.ExceptionContract;
-import io.github.roberto_marcello.exceptions.NotFoundException;
-import io.github.roberto_marcello.exceptions.ParamNotFoundException;
-import io.github.roberto_marcello.exceptions.RepositoryNotFoundException;
-import io.github.roberto_marcello.utils.ResolverPathUtil;
+import io.github.robertomike.exceptions.ExceptionContract;
+import io.github.robertomike.exceptions.NotFoundException;
+import io.github.robertomike.exceptions.ParamNotFoundException;
+import io.github.robertomike.exceptions.RepositoryNotFoundException;
+import io.github.robertomike.utils.ResolverPathUtil;
 import lombok.Setter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.repository.Repository;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -70,15 +69,6 @@ public abstract class ModelResolver {
             Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packagePaths));
             list = reflections.getSubTypesOf(Repository.class);
         }
-    }
-
-    /**
-     * @param model class
-     * @return extract simple name from class
-     */
-    public String getNameModelFromClass(Type model) {
-        String[] packages = model.toString().split("[.]");
-        return packages[packages.length - 1];
     }
 
     /**
@@ -232,15 +222,13 @@ public abstract class ModelResolver {
             String nameParameter,
             Class<?> paramType,
             CustomLambda transformValue,
-            HttpServletRequest request,
+            NativeWebRequest request,
             String method,
             String model
     ) throws Exception {
         String namePathVariable = !Objects.equals(nameValue, "") ? nameValue : nameParameter;
 
-        Optional<String> id = new ResolverPathUtil(request).resolveVariable(
-                namePathVariable
-        );
+        Optional<String> id = ResolverPathUtil.resolveVariable(request, namePathVariable);
 
         if (id.isEmpty()) {
             throw new ParamNotFoundException("Param '" + namePathVariable + "' not found");

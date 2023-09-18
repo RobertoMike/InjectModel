@@ -1,6 +1,6 @@
-package io.github.roberto_marcello.config;
+package io.github.robertomike.config;
 
-import io.github.roberto_marcello.resolvers.InjectModelResolver;
+import io.github.robertomike.resolvers.InjectModelResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;

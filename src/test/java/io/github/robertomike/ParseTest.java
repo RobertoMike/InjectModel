@@ -1,6 +1,6 @@
-package io.github.roberto_marcello;
+package io.github.robertomike;
 
-import io.github.roberto_marcello.resolvers.InjectModelResolver;
+import io.github.robertomike.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ public class ParseTest extends BasicTest {
 
     @Test
     void unsupportedParse() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertThrows(
                 Exception.class,
@@ -22,7 +22,7 @@ public class ParseTest extends BasicTest {
 
     @Test
     void invalidValueForParse() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertThrows(
                 Exception.class,
@@ -33,7 +33,7 @@ public class ParseTest extends BasicTest {
 
     @Test
     void parseInteger() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertEquals(
                 6,
@@ -43,7 +43,7 @@ public class ParseTest extends BasicTest {
 
     @Test
     void parseLong() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertEquals(
                 6L,
@@ -54,7 +54,7 @@ public class ParseTest extends BasicTest {
     @Test
     void parseUUID() throws Exception {
         UUID uuid = UUID.randomUUID();
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertEquals(
                 uuid,
@@ -64,7 +64,7 @@ public class ParseTest extends BasicTest {
 
     @Test
     void parseString() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(request);
+        InjectModelResolver injectModelResolver = new InjectModelResolver();
 
         Assertions.assertEquals(
                 "valid",
