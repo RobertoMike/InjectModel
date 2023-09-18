@@ -161,9 +161,7 @@ public abstract class ModelResolver {
                 method,
                 value,
                 paramType,
-                findRepositoryByModel(
-                        model
-                )
+                findRepositoryByModel(model)
         );
     }
 
