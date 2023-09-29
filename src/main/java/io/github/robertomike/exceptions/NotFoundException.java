@@ -15,4 +15,10 @@ public class NotFoundException extends ExceptionContract {
     public NotFoundException(String reason) {
         super(reason);
     }
+    /**
+     * @param reason used to specify error
+     */
+    public NotFoundException(String reason, Exception e) {
+        super(reason, e);
+    }
 }

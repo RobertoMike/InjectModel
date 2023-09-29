@@ -11,4 +11,11 @@ public abstract class ExceptionContract extends RuntimeException {
     public ExceptionContract(String message) {
         super(message);
     }
+
+    /**
+     * @param message used to specify error
+     */
+    public ExceptionContract(String message, Exception e) {
+        super(message, e);
+    }
 }

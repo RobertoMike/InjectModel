@@ -3,6 +3,7 @@ package io.github.robertomike;
 import io.github.robertomike.models.Model;
 import io.github.robertomike.repositories.ModelRepository;
 import io.github.robertomike.resolvers.InjectModelResolver;
+import io.github.robertomike.resolvers.ModelResolver;
 import io.github.robertomike.resolvers.annotations.InjectModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ public class InjectModelTest extends BasicTest {
         when(applicationContext.getBean(ModelRepository.class)).thenReturn(repository);
 
         injectModelResolver.setApplicationContext(applicationContext);
+        ModelResolver.setPackagePaths("io.github.robertomike.repositories");
 
         InjectModel injectModel = mock(InjectModel.class);
         when(injectModel.nullable()).thenReturn(false);

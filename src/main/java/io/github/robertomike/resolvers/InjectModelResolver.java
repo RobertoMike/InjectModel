@@ -52,14 +52,13 @@ public class InjectModelResolver extends ModelResolver implements HandlerMethodA
         String model = parameter.getParameterType().getSimpleName();
 
         Object result = getModelResultFromRequest(
-                annot.nullable(),
                 annot.value(),
                 parameter.getParameterName(),
                 annot.paramType(),
                 transformValue,
                 webRequest,
                 annot.method(),
-                model
+                parameter.getParameterType()
         );
 
         return checkAndReturnValue(result, annot.nullable(), annot.message(), model);

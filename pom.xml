@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.robertomike</groupId>
     <artifactId>inject_model</artifactId>
-    <version>0.2.2</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
     <name>InjectModel</name>
     <description>InjectModel</description>
@@ -85,29 +85,6 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                            <goal>build-info</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>exec</classifier>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>

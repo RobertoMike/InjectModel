@@ -1,20 +1,18 @@
 package io.github.robertomike.resolvers;
 
+import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
+import io.github.robertomike.drivers.RepositoryResolverDriver;
 import io.github.robertomike.exceptions.ExceptionContract;
 import io.github.robertomike.exceptions.NotFoundException;
 import io.github.robertomike.exceptions.ParamNotFoundException;
-import io.github.robertomike.exceptions.RepositoryNotFoundException;
 import io.github.robertomike.utils.ResolverPathUtil;
+import lombok.Getter;
 import lombok.Setter;
-import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.repository.Repository;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -23,12 +21,13 @@ import java.util.*;
 @Setter
 @SuppressWarnings("ALL")
 public abstract class ModelResolver {
-
-    public static Set<Class<? extends Repository>> list;
+    @Setter
+    @Getter
+    private static RepositoryResolverDriver<?> resolverDriver = new SpringRepositoryResolverDriver();
     protected static String[] packagePaths;
     @Autowired
     ApplicationContext applicationContext;
-
+    @Getter
     protected static String suffixRepository = "Repository";
 
     protected static Class<? extends ExceptionContract> notFoundContract = NotFoundException.class;
@@ -62,88 +61,6 @@ public abstract class ModelResolver {
     }
 
     /**
-     * to search repositories if list is empty
-     */
-    public void loadRepositories() {
-        if (list == null) {
-            Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packagePaths));
-            list = reflections.getSubTypesOf(Repository.class);
-        }
-    }
-
-    /**
-     * @param model simple name of class
-     * @return repository from model simple name
-     * @throws Exception emit exception if repository is not founded
-     */
-    public Class<? extends Repository> findRepositoryByModel(String model) throws Exception {
-        loadRepositories();
-
-        Optional<Class<? extends Repository>> repository = list
-                .stream()
-                .filter((classes) -> Arrays.stream(packagePaths).anyMatch(packagePath ->
-                        classes.getName().contains(
-                                packagePath + "." + model + suffixRepository
-                        )
-                )).findFirst();
-
-        if (repository.isEmpty()) {
-            throw new RepositoryNotFoundException("Repository '" + model + suffixRepository + "' not found for model: " + model);
-        }
-
-        return repository.get();
-    }
-
-    /**
-     * @param value     value to parse
-     * @param paramType class used to parse the value
-     * @return object parsed
-     * @throws Exception can throw error if is not valid classType or invalid value to class
-     */
-    public Object parse(String value, Class<?> paramType) throws Exception {
-        try {
-            if (paramType.equals(Long.class)) {
-                return Long.parseLong(value);
-            }
-
-            if (paramType.equals(Integer.class)) {
-                return Integer.parseInt(value);
-            }
-
-            if (paramType.equals(String.class)) {
-                return value;
-            }
-
-            if (paramType.equals(UUID.class)) {
-                return UUID.fromString(value);
-            }
-
-            throw new Exception("Class " + paramType + " not supported");
-        } catch (Exception e) {
-            throw new Exception("Type of value not supported for " + paramType);
-        }
-    }
-
-    /**
-     * @param method     for repository
-     * @param value      for search on repository
-     * @param paramType  type of object to search
-     * @param repository the repository use for search
-     * @return object getted from repository
-     * @throws Exception find the model
-     */
-    public Object findModel(
-            String method,
-            String value,
-            Class<?> paramType,
-            Class<? extends Repository> repository
-    ) throws Exception {
-        Repository instance = applicationContext.getBean(repository);
-        Method callable = getMethod(instance, method, paramType);
-        return callable.invoke(instance, parse(value, paramType));
-    }
-
-    /**
      * @param method    for repository
      * @param value     for search on repository
      * @param paramType type of object to search
@@ -155,14 +72,9 @@ public abstract class ModelResolver {
             String method,
             String value,
             Class<?> paramType,
-            String model
+            Class<?> model
     ) throws Exception {
-        return findModel(
-                method,
-                value,
-                paramType,
-                findRepositoryByModel(model)
-        );
+        return resolverDriver.resolveModel(applicationContext, model, method, value, paramType);
     }
 
     /**
@@ -202,7 +114,6 @@ public abstract class ModelResolver {
 
 
     /**
-     * @param nullable       if returned value can be null
      * @param nameValue      name of value annotation
      * @param nameParameter  name of parameter
      * @param paramType      parameter type (Model)
@@ -215,14 +126,13 @@ public abstract class ModelResolver {
      */
     @Nullable
     public Object getModelResultFromRequest(
-            boolean nullable,
             String nameValue,
             String nameParameter,
             Class<?> paramType,
             CustomLambda transformValue,
             NativeWebRequest request,
             String method,
-            String model
+            Class<?> model
     ) throws Exception {
         String namePathVariable = !Objects.equals(nameValue, "") ? nameValue : nameParameter;
 
@@ -238,21 +148,6 @@ public abstract class ModelResolver {
                 paramType,
                 model
         );
-    }
-
-    /**
-     * @param instance  current instance of type repository
-     * @param method    searched method
-     * @param paramType type of param
-     * @return method for searching on repository
-     * @throws NoSuchMethodException error getting method from class
-     */
-    public Method getMethod(Repository instance, String method, Class<?> paramType) throws NoSuchMethodException {
-        try {
-            return instance.getClass().getMethod(method, paramType);
-        } catch (Exception e) {
-            return instance.getClass().getMethod(method, Object.class);
-        }
     }
 
     /**

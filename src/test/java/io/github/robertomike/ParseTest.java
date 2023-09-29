@@ -1,6 +1,7 @@
 package io.github.robertomike;
 
-import io.github.robertomike.resolvers.InjectModelResolver;
+import io.github.robertomike.drivers.RepositoryResolverDriver;
+import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,64 +12,64 @@ public class ParseTest extends BasicTest {
 
     @Test
     void unsupportedParse() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertThrows(
                 Exception.class,
-                () -> injectModelResolver.parse("2", HashMap.class),
+                () -> driver.parse("2", HashMap.class),
                 "Class " + HashMap.class + " not supported"
         );
     }
 
     @Test
     void invalidValueForParse() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertThrows(
                 Exception.class,
-                () -> injectModelResolver.parse("invalid", Long.class),
+                () -> driver.parse("invalid", Long.class),
                 "Type of value not supported for " + Long.class
         );
     }
 
     @Test
-    void parseInteger() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+    void parseInteger() {
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertEquals(
                 6,
-                injectModelResolver.parse("6", Integer.class)
+                driver.parse("6", Integer.class)
         );
     }
 
     @Test
-    void parseLong() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+    void parseLong() {
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertEquals(
                 6L,
-                injectModelResolver.parse("6", Long.class)
+                driver.parse("6", Long.class)
         );
     }
 
     @Test
-    void parseUUID() throws Exception {
+    void parseUUID() {
         UUID uuid = UUID.randomUUID();
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertEquals(
                 uuid,
-                injectModelResolver.parse(uuid.toString(), UUID.class)
+                driver.parse(uuid.toString(), UUID.class)
         );
     }
 
     @Test
-    void parseString() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+    void parseString() {
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         Assertions.assertEquals(
                 "valid",
-                injectModelResolver.parse("valid", String.class)
+                driver.parse("valid", String.class)
 
         );
     }

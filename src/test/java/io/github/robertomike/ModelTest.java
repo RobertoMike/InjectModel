@@ -1,8 +1,11 @@
 package io.github.robertomike;
 
+import io.github.robertomike.drivers.RepositoryResolverDriver;
+import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
 import io.github.robertomike.exceptions.ExceptionContract;
 import io.github.robertomike.exceptions.ParamNotFoundException;
 import io.github.robertomike.exceptions.RepositoryNotFoundException;
+import io.github.robertomike.models.FakeModel;
 import io.github.robertomike.models.Model;
 import io.github.robertomike.repositories.ModelRepository;
 import io.github.robertomike.resolvers.InjectModelResolver;
@@ -46,7 +49,7 @@ class ModelTest extends BasicTest {
     void getMethod() throws Exception {
         String methodName = "findById";
 
-        Method method = new InjectModelResolver().getMethod(repository, methodName, Long.class);
+        Method method = new SpringRepositoryResolverDriver().getMethod(repository, methodName, Long.class);
 
         assertNotNull(method);
     }
@@ -56,13 +59,11 @@ class ModelTest extends BasicTest {
         String packagePath = repository.getClass().getPackageName();
 
         InjectModelResolver.setPackagePaths(packagePath);
-        InjectModelResolver injectModelResolver = new InjectModelResolver();
+        RepositoryResolverDriver<?> driver = new SpringRepositoryResolverDriver();
 
         assertThrows(
                 RepositoryNotFoundException.class,
-                () -> injectModelResolver.findRepositoryByModel(
-                        "FakeModel"
-                )
+                () -> driver.resolveRepositoryOrThrow(FakeModel.class)
         );
     }
 
@@ -76,14 +77,13 @@ class ModelTest extends BasicTest {
         InjectModelResolver injectModelResolver = new InjectModelResolver();
         assertThrows(ParamNotFoundException.class, () ->
                 injectModelResolver.getModelResultFromRequest(
-                        false,
                         "otherId",
                         "model",
                         Long.class,
                         (id) -> id,
                         request,
                         methodName,
-                        "Model"
+                        Model.class
                 )
         );
     }
@@ -108,14 +108,13 @@ class ModelTest extends BasicTest {
         injectModelResolver.setApplicationContext(applicationContext);
 
         Object object = injectModelResolver.getModelResultFromRequest(
-                false,
                 "id",
                 "model",
                 Long.class,
                 (id) -> id,
                 request,
                 methodName,
-                "Model"
+                Model.class
         );
 
         assertNotNull(object);
