@@ -2,7 +2,9 @@ package io.github.robertomike.config;
 
 import io.github.robertomike.resolvers.InjectModelResolver;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @AllArgsConstructor
 @Configuration
+@ComponentScan("io.github.robertomike")
+@Log4j2
 public class AutoConfiguration implements WebMvcConfigurer {
 
     ApplicationContext applicationContext;
@@ -23,6 +27,7 @@ public class AutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        log.info("Adding inject model to arguments resolvers");
         argumentResolvers.add(injectModel());
     }
 
