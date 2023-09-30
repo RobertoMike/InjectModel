@@ -17,7 +17,7 @@ public class SpringRepositoryResolverDriver extends RepositoryResolverDriver<Rep
     public Class<? extends Repository<?, ?>> resolveRepositoryOrThrow(Class<?> modelClass) {
         loadRepositories();
 
-        return list.stream()
+        return listOfRepository.stream()
                 .filter(classType -> getPackagePaths().anyMatch(packagePath -> classType.getName().contains(
                         packagePath + "." + modelClass.getSimpleName() + ModelResolver.getSuffixRepository()
                 )))

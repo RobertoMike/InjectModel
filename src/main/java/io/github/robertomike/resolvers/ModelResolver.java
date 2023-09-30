@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.annotation.Nullable;
@@ -134,7 +135,7 @@ public abstract class ModelResolver {
             String method,
             Class<?> model
     ) throws Exception {
-        String namePathVariable = !Objects.equals(nameValue, "") ? nameValue : nameParameter;
+        String namePathVariable = nameValue != null && !nameValue.trim().equals("") ? nameValue : nameParameter;
 
         Optional<String> id = ResolverPathUtil.resolveVariable(request, namePathVariable);
 
