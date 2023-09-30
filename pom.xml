@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.robertomike</groupId>
     <artifactId>inject_model</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
     <packaging>jar</packaging>
     <name>InjectModel</name>
     <description>InjectModel</description>
@@ -32,13 +32,13 @@
             <name>Roberto Micheletti</name>
             <email>rmworking@hotmail.com</email>
             <organization>Roberto Micheletti</organization>
-            <organizationUrl>https://github.com/Roberto-Marcello</organizationUrl>
+            <organizationUrl>https://github.com/RobertoMike</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/Roberto-Marcello/InjectModel.git</connection>
-        <developerConnection>scm:git:ssh://github.com:Roberto-Marcello/InjectModel.git</developerConnection>
-        <url>https://github.com/Roberto-Marcello/InjectModel/tree/master</url>
+        <connection>scm:git:git://github.com/RobertoMike/InjectModel.git</connection>
+        <developerConnection>scm:git:ssh://github.com:RobertoMike/InjectModel.git</developerConnection>
+        <url>https://github.com/RobertoMike/InjectModel/tree/master</url>
     </scm>
     <properties>
         <gpg.skip>true</gpg.skip>

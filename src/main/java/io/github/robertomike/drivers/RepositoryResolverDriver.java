@@ -13,8 +13,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public abstract class RepositoryResolverDriver<R> {
-    public Set<Class<? extends R>> list;
-    protected Class<? extends R> repository;
+    public Set<Class<? extends R>> listOfRepository;
 
     /**
      * Get all the generics from the current class
@@ -35,9 +34,9 @@ public abstract class RepositoryResolverDriver<R> {
      * to search repositories if list is empty
      */
     public void loadRepositories() {
-        if (list == null) {
+        if (listOfRepository == null) {
             Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(ModelResolver.getPackagePaths()));
-            list = reflections.getSubTypesOf(getRepositoryClass());
+            listOfRepository = reflections.getSubTypesOf(getRepositoryClass());
         }
     }
 
@@ -48,6 +47,13 @@ public abstract class RepositoryResolverDriver<R> {
 
     /**
      * search repository from model class if empty throw error
+     *
+     * @param applicationContext for get the bean of the repository
+     * @param model the class of searched model from type of param
+     * @param method searched method
+     * @param value the value from the url
+     * @param paramType type of param
+     * @return method for searching on repository
      */
     public abstract Object resolveModel(ApplicationContext applicationContext, Class<?> model, String method, String value, Class<?> paramType) throws Exception;
 
@@ -59,7 +65,7 @@ public abstract class RepositoryResolverDriver<R> {
     }
 
     /**
-     * @param value     value to parse
+     * @param value value to parse
      * @param paramType class used to parse the value
      * @return object parsed
      */
