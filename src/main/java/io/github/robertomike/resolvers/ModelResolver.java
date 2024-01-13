@@ -1,7 +1,7 @@
 package io.github.robertomike.resolvers;
 
-import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
 import io.github.robertomike.drivers.RepositoryResolverDriver;
+import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
 import io.github.robertomike.exceptions.ExceptionContract;
 import io.github.robertomike.exceptions.NotFoundException;
 import io.github.robertomike.exceptions.ParamNotFoundException;
@@ -10,11 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Optional;
 
 /**
  * Class with basic methods for resolvers to be extended
@@ -27,7 +26,7 @@ public abstract class ModelResolver {
     private static RepositoryResolverDriver<?> resolverDriver = new SpringRepositoryResolverDriver();
     protected static String[] packagePaths;
     @Autowired
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
     @Getter
     protected static String suffixRepository = "Repository";
 
