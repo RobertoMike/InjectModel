@@ -5,6 +5,7 @@ from repositories
 
 ## Links
 - [Example of use](#example)
+- [Difference](#Difference)
 - [Configuration of the Resolver](#Configuration)
 - [Parameters of the annotation](#Parameters)
 - [Customize repository and model resolver](#Customize)
@@ -27,6 +28,56 @@ public class controller {
     }
 }
 ```
+
+##  <a id="Difference"></a>Difference
+
+<table>
+<tr>
+    <th>Normal</th>
+    <th>Inject Model</th>
+</tr>
+<tr>
+<td>
+
+```java
+import io.github.robertomike.exceptions.NotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@AllArgsConstructor
+public class ExampleController {
+    private ExampleRepository repository;
+
+    @GetMapping("/examples/{exampleId}")
+    public Example show(@RequestParam() Long exampleId) {
+        Optional<Example> exampleOptional = repository.findById(exampleId);
+        if (exampleOptional.isEmpty()) {
+            throw new NotFoundException("Model not fount for id: " + exampleId);
+        }
+        return exampleOptional.get();
+    }
+}
+```
+</td>
+<td>
+
+```java
+import io.github.robertomike.resolvers.annotations.InjectModel;
+import org.springframework.web.bind.annotation.GetMapping;
+
+public class ExampleController {
+    // If path var is equals to name var you don't need to declare nothing
+    @GetMapping("/examples/{example}")
+    public Example show(@InjectModel Example example) {
+        return example;
+    }
+}
+```
+</td>
+</tr>
+</table>
+
 
 ##  <a id="Configuration"></a>Configuration
 
@@ -100,6 +151,11 @@ public class InjectModelConfig {
 
 ## <a id="Warning"></a>Warning ![Warning](./warning.svg)
 
-All methods used from InjectModel need to be declared on the repository and need to have only one parameter (path variable)
+All methods used from InjectModel need to be declared on the repository,
+need to have only one parameter (path variable) and 
+return an object or optional object
+
+The type of value returned must match what is expected
+
 
 [![coffee](./buy-me-coffee.png)](https://www.buymeacoffee.com/robertomike)
