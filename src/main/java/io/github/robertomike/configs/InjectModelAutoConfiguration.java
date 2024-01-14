@@ -1,4 +1,4 @@
-package io.github.robertomike.config;
+package io.github.robertomike.configs;
 
 import io.github.robertomike.InjectModelApplication;
 import io.github.robertomike.resolvers.InjectModelResolver;
@@ -22,9 +22,9 @@ import java.util.List;
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = InjectModelApplication.class)
 })
 @Log4j2
-public class AutoConfiguration implements WebMvcConfigurer {
+public class InjectModelAutoConfiguration implements WebMvcConfigurer {
 
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     /**
      * @param argumentResolvers for register the inject model
