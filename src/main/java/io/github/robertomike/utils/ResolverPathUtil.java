@@ -1,10 +1,8 @@
 package io.github.robertomike.utils;
 
-import lombok.AllArgsConstructor;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 
