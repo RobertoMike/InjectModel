@@ -4,14 +4,14 @@ This library is for simplify work when we need to get model from path variable a
 from repositories
 
 ## Links
-- [Example of use](#example)
-- [Difference](#Difference)
-- [Configuration of the Resolver](#Configuration)
-- [Parameters of the annotation](#Parameters)
-- [Customize repository and model resolver](#Customize)
-- [Warning for repository](#Warning)
+- [Example of use](#example-of-use)
+- [Difference](#difference)
+- [Configuration of the Resolver](#configuration)
+- [Parameters of the annotation](#parameters-of-injectmodel)
+- [Customize repository and model resolver](#can-i-change-the-way-that-is-resolved-the-repository-and-method)
+- [Warning for repository](#warning-)
 
-##  <a id="example"></a>Example of use
+##  Example of use
 
 It is used in method parameters.
 If repository return null or optional empty throw NotFoundException.
@@ -29,7 +29,7 @@ public class controller {
 }
 ```
 
-##  <a id="Difference"></a>Difference
+##  Difference
 
 <table>
 <tr>
@@ -79,7 +79,7 @@ public class ExampleController {
 </table>
 
 
-##  <a id="Configuration"></a>Configuration
+##  Configuration
 
 For the inject model work, you need to define basic configuration.
 Example:
@@ -109,7 +109,7 @@ public class InjectModelConfig {
 }
 ```
 
-## <a id="Parameters"></a>Parameters of InjectModel
+## Parameters of InjectModel
 
 ```java
 import io.github.robertomike.injectmodel.InjectModel;
@@ -128,7 +128,7 @@ public class Controller {
 }
 ```
 
-## <a id="Customize"></a>Can I change the way that is resolved the repository and method?
+## Can I change the way that is resolved the repository and method?
 Yes, you can, you need to extend the class RepositoryResolverDriver and need to define 
 in the configuration, the current and only resolver is SpringRepositoryResolverDriver
 
@@ -149,7 +149,7 @@ public class InjectModelConfig {
 }
 ```
 
-## <a id="Warning"></a>Warning ![Warning](./warning.svg)
+## Warning ![Warning](./warning.svg)
 
 All methods used from InjectModel need to be declared on the repository,
 need to have only one parameter (path variable) and 
