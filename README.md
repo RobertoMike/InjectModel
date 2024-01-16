@@ -5,6 +5,7 @@ from repositories
 
 ## Links
 - [Example of use](#example-of-use)
+- [How to install](#how-to-install)
 - [Difference](#difference)
 - [Configuration of the Resolver](#configuration)
 - [Parameters of the annotation](#parameters-of-injectmodel)
@@ -27,6 +28,15 @@ public class controller {
         return model;
     }
 }
+```
+
+## How to install
+```xml
+<dependency>
+    <groupId>io.github.robertomike</groupId>
+    <artifactId>inject_model</artifactId>
+    <version>0.3.4</version>
+</dependency>
 ```
 
 ##  Difference
