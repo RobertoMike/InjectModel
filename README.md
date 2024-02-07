@@ -60,7 +60,7 @@ public class ExampleController {
     private ExampleRepository repository;
 
     @GetMapping("/examples/{exampleId}")
-    public Example show(@RequestParam() Long exampleId) {
+    public Example show(@PathVariable() Long exampleId) {
         Optional<Example> exampleOptional = repository.findById(exampleId);
         if (exampleOptional.isEmpty()) {
             throw new NotFoundException("Model not fount for id: " + exampleId);
