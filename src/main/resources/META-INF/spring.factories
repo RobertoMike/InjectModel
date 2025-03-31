@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.robertomike.configs.InjectModelAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.robertomike.inject_model.configs.InjectModelAutoConfiguration

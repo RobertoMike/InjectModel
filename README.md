@@ -144,7 +144,7 @@ in the configuration, the current and only resolver is SpringRepositoryResolverD
 
 ```java
 import io.github.robertomike.resolvers.InjectModelResolver;
-import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
+import io.github.robertomike.drivers.SpringModelResolverDriver;
 
 @Configuration
 public class InjectModelConfig {
