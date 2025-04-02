@@ -1,5 +1,6 @@
 package io.github.robertomike.inject_model;
 
+import io.github.robertomike.inject_model.drivers.SpringModelDriverResolver;
 import io.github.robertomike.inject_model.drivers.SpringRepositoryReflectionDriverResolver;
 import io.github.robertomike.inject_model.exceptions.ExceptionContract;
 import io.github.robertomike.inject_model.exceptions.ParamNotFoundException;
@@ -21,19 +22,10 @@ import static org.mockito.Mockito.when;
 
 class ModelTest extends BasicTest {
     @Test
-    void setPackagePaths() {
-        String packagePath = repository.getClass().getPackage().getName();
-
-        SpringRepositoryReflectionDriverResolver.setPackagePath(packagePath);
-
-        assertArrayEquals(SpringRepositoryReflectionDriverResolver.getPackagePaths(), new String[]{packagePath});
-    }
-
-    @Test
     void getNotFoundException() {
         String message = "Not found";
 
-        ExceptionContract notFoundContract = new InjectModelResolver(applicationContext, properties).notFound(message);
+        ExceptionContract notFoundContract = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties)).notFound(message);
 
         assertNotNull(notFoundContract);
         assertEquals(message, notFoundContract.getMessage());
@@ -43,7 +35,7 @@ class ModelTest extends BasicTest {
     void getMethod() throws Exception {
         String methodName = "findById";
 
-        Method method = new SpringRepositoryReflectionDriverResolver()
+        Method method = new SpringRepositoryReflectionDriverResolver(applicationContext, properties)
                 .getMethod(repository, methodName, Long.class);
 
         assertNotNull(method);
@@ -53,8 +45,8 @@ class ModelTest extends BasicTest {
     void repositoryNotFound() {
         String packagePath = repository.getClass().getPackage().getName();
 
-        SpringRepositoryReflectionDriverResolver.setPackagePath(packagePath);
-        SpringRepositoryReflectionDriverResolver driver = new SpringRepositoryReflectionDriverResolver();
+        SpringRepositoryReflectionDriverResolver driver = new SpringRepositoryReflectionDriverResolver(applicationContext, properties);
+        driver.setPackagePath(packagePath);
         driver.load();
 
         assertThrows(
@@ -70,7 +62,7 @@ class ModelTest extends BasicTest {
         NativeWebRequest request = mock(NativeWebRequest.class);
         when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, 0)).thenReturn(Collections.singletonMap("id", "2"));
 
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
         assertThrows(ParamNotFoundException.class, () ->
                 injectModelResolver.getModelResultFromRequest(
                         "otherId",
@@ -91,7 +83,7 @@ class ModelTest extends BasicTest {
         NativeWebRequest request = mock(NativeWebRequest.class);
         when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, 0)).thenReturn(Collections.singletonMap("id", "2"));
 
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         when(repository.findById(2L)).thenReturn(Optional.of(new Model(2L)));
 

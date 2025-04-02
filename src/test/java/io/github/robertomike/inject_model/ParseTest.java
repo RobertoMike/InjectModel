@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class ParseTest extends BasicTest {
-    ModelDriverResolver<?> driver = new SpringRepositoryReflectionDriverResolver();
+    ModelDriverResolver<?> driver = new SpringRepositoryReflectionDriverResolver(applicationContext, properties);
 
     @Test
     void unsupportedParse() {

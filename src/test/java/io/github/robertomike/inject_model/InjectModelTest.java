@@ -1,5 +1,6 @@
 package io.github.robertomike.inject_model;
 
+import io.github.robertomike.inject_model.drivers.SpringModelDriverResolver;
 import io.github.robertomike.inject_model.models.Model;
 import io.github.robertomike.inject_model.resolvers.InjectModelResolver;
 import io.github.robertomike.inject_model.resolvers.annotations.InjectModel;
@@ -18,7 +19,7 @@ public class InjectModelTest extends BasicTest {
 
     @Test
     void testGetObject() throws Exception {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         when(repository.findById(2L)).thenReturn(Optional.of(new Model(2L)));
 

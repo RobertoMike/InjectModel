@@ -1,5 +1,6 @@
 package io.github.robertomike.inject_model;
 
+import io.github.robertomike.inject_model.drivers.SpringModelDriverResolver;
 import io.github.robertomike.inject_model.exceptions.NotFoundException;
 import io.github.robertomike.inject_model.resolvers.InjectModelResolver;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +11,7 @@ import java.util.Optional;
 public class CheckAndReturnTest extends BasicTest {
     @Test
     void checkAndReturnOptionalValue() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         Object result = injectModelResolver.checkAndReturnValue(
                 Optional.of(5),
@@ -27,7 +28,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void checkAndReturnOptionalEmptyNullableResult() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         Object result = injectModelResolver.checkAndReturnValue(
                 Optional.empty(),
@@ -41,7 +42,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void throwErrorOfEmptyOptional() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         Assertions.assertThrows(
                 NotFoundException.class,
@@ -57,7 +58,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void throwErrorOfNullableValue() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         Assertions.assertThrows(
                 NotFoundException.class,
@@ -73,7 +74,7 @@ public class CheckAndReturnTest extends BasicTest {
 
     @Test
     void checkAndReturnValue() {
-        InjectModelResolver injectModelResolver = new InjectModelResolver(applicationContext, properties);
+        InjectModelResolver injectModelResolver = new InjectModelResolver(new SpringModelDriverResolver(applicationContext, properties));
 
         Assertions.assertEquals(
                 5,
