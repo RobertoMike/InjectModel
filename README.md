@@ -138,9 +138,8 @@ public class InjectModelConfig {
 A driver is the one that search the repository from the model name class.
 
 If you want to define a custom driver you need to extend from '_ModelDriverResolver_'
- and put on the property 'inject-model.driver' = 'custom'.
 
-After these two things you declare a bean of your driver ⚡!
+After this you can declare a bean of your driver ⚡!
 
 Right now there are two drivers:
 - SpringRepositoryReflectionDriverResolver -> deprecated
