@@ -1,7 +1,6 @@
 package io.github.robertomike.inject_model.drivers
 
 import io.github.robertomike.inject_model.configs.InjectModelProperties
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -18,7 +17,6 @@ import org.springframework.util.StringUtils
  * @see ModelDriverResolver
  */
 @Component
-@ConditionalOnMissingBean
 @ConditionalOnProperty("inject-model.driver", havingValue = "default", matchIfMissing = true)
 class SpringModelDriverResolver(applicationContext: ApplicationContext, properties: InjectModelProperties) :
     ModelDriverResolver<Class<*>>(applicationContext, properties) {
