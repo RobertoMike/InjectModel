@@ -1,4 +1,4 @@
-# Welcome to InjectModel
+# Welcome to InjectModel 👋
 
 This library is for simplify work when we need to get model from path variable automatically, searching automatically
 from repositories
@@ -7,9 +7,10 @@ from repositories
 - [Example of use](#example-of-use)
 - [How to install](#how-to-install)
 - [Difference](#difference)
-- [Configuration of the Resolver](#configuration)
+- [Configuration](#configuration)
+  - [Custom repositories for models](#custom-repositories-for-models)
+  - [Custom driver](#custom-driver)
 - [Parameters of the annotation](#parameters-of-injectmodel)
-- [Customize repository and model resolver](#can-i-change-the-way-that-is-resolved-the-repository-and-method)
 - [Warning for repository](#warning-)
 
 ##  Example of use
@@ -18,12 +19,21 @@ It is used in method parameters.
 If repository return null or optional empty throw NotFoundException.
 
 ```java
-package io.github.robertomike.resolvers.InjectModel;
+package io.github.robertomike.inject_model.resolvers.InjectModel;
 
 public class controller {
+    @Get("/models/{model}")
     public Model nameMethod(
             // If path variable have the same name of the var, you don't need to declare the string inside the annotation
-            @InjectModel("pathVariable") Model model
+            @InjectModel() Model model
+    ) {
+        return model;
+    }
+
+    // Example of path variable different from variable method name  
+    @Get("/models/{modelId}")
+    public Model nameMethod(
+            @InjectModel("modelId") Model model
     ) {
         return model;
     }
@@ -31,12 +41,19 @@ public class controller {
 ```
 
 ## How to install
+Maven
 ```xml
 <dependency>
     <groupId>io.github.robertomike</groupId>
     <artifactId>inject_model</artifactId>
-    <version>0.3.4</version>
+    <version>1.0.0</version>
 </dependency>
+```
+Gradle
+```gradle
+dependencies {
+    implementation 'io.github.robertomike:inject_model:1.0.0'
+}
 ```
 
 ##  Difference
@@ -61,11 +78,8 @@ public class ExampleController {
 
     @GetMapping("/examples/{exampleId}")
     public Example show(@PathVariable() Long exampleId) {
-        Optional<Example> exampleOptional = repository.findById(exampleId);
-        if (exampleOptional.isEmpty()) {
-            throw new NotFoundException("Model not fount for id: " + exampleId);
-        }
-        return exampleOptional.get();
+        return repository.findById(exampleId)
+                .orElseThrow(() -> new NotFoundException("Model not fount for id: " + exampleId));
     }
 }
 ```
@@ -91,35 +105,77 @@ public class ExampleController {
 
 ##  Configuration
 
-For the inject model work, you need to define basic configuration.
-Example:
+For the inject model work, **_there is no needed configuration_**. 🎉
 
-You can define many package paths where find automatically repositories (DTOs)
+The InjectModel search the repository using the name of the class
 
-Inject model search repository reading name of model and add declared suffix
+**Example**: model User, he will search 'userRepository' bean.
 
-Example: ModelRepository
+If you want to use instead the _services_ you can use the property 'inject-model.suffix' and put 'Service'
+
+### Custom repositories for models
+
+If you models and repositories doesn't follow a standard, you can set how to find the corresponding repository in this way:
 
 ```java
-import io.github.robertomike.exceptions.NotFoundException;
-import io.github.robertomike.resolvers.InjectModelResolver;
+
+import io.github.robertomike.inject_model.drivers.SpringModelDriverResolver;
 
 @Configuration
 public class InjectModelConfig {
     private InjectModelConfig() {
+        // You get the map of alternatives
+        Map<String, String> alternatives = SpringModelDriverResolver.getAlternativeNames();
+        // Put your custom names
+        alternatives.put("User", "SomeRandomNameToRepository");
+        // Some more alternatives names
+    }
+}
+```
+
+### Custom driver
+
+A driver is the one that search the repository from the model name class.
+
+If you want to define a custom driver you need to extend from '_ModelDriverResolver_'
+ and put on the property 'inject-model.driver' = 'custom'.
+
+After these two things you declare a bean of your driver ⚡!
+
+Right now there are two drivers:
+- SpringRepositoryReflectionDriverResolver -> deprecated
+- SpringModelDriverResolver -> used by default
+
+```java
+import io.github.robertomike.inject_model.configs.InjectModelProperties;
+import io.github.robertomike.inject_model.exceptions.NotFoundException;
+import io.github.robertomike.inject_model.resolvers.ModelResolver;
+import io.github.robertomike.inject_model.drivers.SpringRepositoryReflectionDriverResolver;
+import org.springframework.context.ApplicationContext;
+
+@Configuration
+public class InjectModelConfig {
+    @Bean
+    public ModelDriverResolver driver(ApplicationContext context, InjectModelProperties properties) {
+        // This is an example using the deprecated driver 
+        SpringRepositoryReflectionDriverResolver driver = new SpringRepositoryReflectionDriverResolver();
         // Define package paths
-        InjectModelResolver.setPackagePaths(
+        driver.setPackagePath(
                 Repository.class.getPackage().getName()
         );
-        // This is the default value, if you want to customize define suffix name of repository
-        InjectModelResolver.setSuffixRepository("Repository");
+        // If you have defined a function to load necessary data
+        driver.load();
+        // Set necessary class to work
+        driver.setProperties(context, properties);
         // This is the default value, if you want to implement your custom not exception you need to extend from NotFoundContract
-        InjectModelResolver.setNotFoundException(NotFoundException.class);
+        return driver;
     }
 }
 ```
 
 ## Parameters of InjectModel
+
+The InjectModel has many parameters that allows you to configurate the behavior
 
 ```java
 import io.github.robertomike.injectmodel.InjectModel;
@@ -127,34 +183,13 @@ import io.github.robertomike.injectmodel.InjectModel;
 public class Controller {
     public void method(
             @InjectModel(
-                    value = "path_variable",
+                    value = "path_variable", // This is empty by default, reading the name of variable
                     paramType = String.class, // default Long | supported Long, Integer, String, UUID
-                    message = "Message exception",
-                    method = "methodRepository", // default findById
+                    message = "Message exception", // Customize the error message
+                    method = "methodRepository", // default method findById
                     nullable = true // Permit return null value and not throw exception 
             ) Model model
     ) {
-    }
-}
-```
-
-## Can I change the way that is resolved the repository and method?
-Yes, you can, you need to extend the class RepositoryResolverDriver and need to define 
-in the configuration, the current and only resolver is SpringRepositoryResolverDriver
-
-```java
-import io.github.robertomike.resolvers.InjectModelResolver;
-import io.github.robertomike.drivers.SpringRepositoryResolverDriver;
-
-@Configuration
-public class InjectModelConfig {
-    private InjectModelConfig() {
-        // Define package paths
-        InjectModelResolver.setPackagePaths(
-                Repository.class.getPackage().getName()
-        );
-
-        InjectModelResolver.setResolverDriver(new SpringRepositoryResolverDriver());
     }
 }
 ```
