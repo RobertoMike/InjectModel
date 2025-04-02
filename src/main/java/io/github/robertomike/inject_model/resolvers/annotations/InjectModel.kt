@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 /**
  * Class for a search model from repository
  */
-@Target(AnnotationTarget.TYPE_PARAMETER)
+@Target(AnnotationTarget.TYPE_PARAMETER, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.TYPE)
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class InjectModel(

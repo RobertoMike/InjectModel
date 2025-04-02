@@ -8,6 +8,13 @@ import org.springframework.web.servlet.HandlerMapping
  */
 class ResolverPathUtil {
     companion object {
+        /**
+         * Resolves a variable from the request's URI template variables.
+         *
+         * @param request the current request
+         * @param variable the name of the variable to resolve
+         * @return the value of the variable, or null if not found
+         */
         @JvmStatic
         fun resolveVariable(request: NativeWebRequest, variable: String): String? {
             val uriTemplateVars =

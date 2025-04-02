@@ -11,6 +11,9 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.*
 
+/**
+ * Abstract class for model driver
+ */
 abstract class ModelDriverResolver<M>(val applicationContext: ApplicationContext, val properties: InjectModelProperties) {
     /**
      * Get all the generics from the current class

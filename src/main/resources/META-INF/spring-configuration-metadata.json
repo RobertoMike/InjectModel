@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "inject-model",
+      "type": "org.springframework.boot.context.properties.ConfigurationProperties",
+      "sourceType": "io.github.robertomike.inject_model.configs.InjectModelProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "inject-model.suffix",
+      "type": "java.lang.String",
+      "defaultValue": "Repository",
+      "description": "The suffix that will be used to search the classes starting from the model name"
+    },
+    {
+      "name": "inject-model.driver",
+      "type": "java.lang.String",
+      "defaultValue": "default",
+      "description": "This will be used to choose what driver use to resolve the model"
+    }
+  ]
+}

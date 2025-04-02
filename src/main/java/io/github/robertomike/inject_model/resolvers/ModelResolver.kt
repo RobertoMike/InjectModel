@@ -1,24 +1,20 @@
 package io.github.robertomike.inject_model.resolvers
 
-import io.github.robertomike.inject_model.configs.InjectModelProperties
 import io.github.robertomike.inject_model.drivers.ModelDriverResolver
-import io.github.robertomike.inject_model.drivers.SpringModelDriverResolver
 import io.github.robertomike.inject_model.exceptions.ExceptionContract
 import io.github.robertomike.inject_model.exceptions.NotFoundException
 import io.github.robertomike.inject_model.exceptions.ParamNotFoundException
 import io.github.robertomike.inject_model.utils.ResolverPathUtil
-import org.springframework.context.ApplicationContext
 import org.springframework.web.context.request.NativeWebRequest
 import java.util.*
 import java.util.function.Function
 
-abstract class ModelResolver(applicationContext: ApplicationContext, properties: InjectModelProperties) {
-    private val resolverDriver: ModelDriverResolver<*> =
-        SpringModelDriverResolver(applicationContext, properties)
-
-    init {
-        resolverDriver.load()
-    }
+/**
+ * Abstract class responsible for resolving models using a provided driver.
+ *
+ * @param resolverDriver the driver used to resolve models
+ */
+abstract class ModelResolver(private val resolverDriver: ModelDriverResolver<*>) {
 
     companion object {
         /**
@@ -30,6 +26,8 @@ abstract class ModelResolver(applicationContext: ApplicationContext, properties:
 
 
     /**
+     * Checks if the result is present and returns it, or throws an exception if it's not present and nullable is false.
+     *
      * @param result   result from repository
      * @param nullable if the result can be nullable and not throw error
      * @param message  error message
@@ -37,7 +35,7 @@ abstract class ModelResolver(applicationContext: ApplicationContext, properties:
      * @return return the final object unwrapped from optional
      * @throws Exception emit exception if model is empty and nullable is false
      */
-    fun checkAndReturnValue(result: Any?, nullable: Boolean, message: String, model: String): Any? {
+     open fun checkAndReturnValue(result: Any?, nullable: Boolean, message: String, model: String): Any? {
         if (result is Optional<*>) {
 
             if (result.isPresent) {
@@ -59,6 +57,8 @@ abstract class ModelResolver(applicationContext: ApplicationContext, properties:
     }
 
     /**
+     * Creates a custom error message by replacing [model] in the provided message.
+
      * @param message message to show on throw errors
      * @param model   simple name model
      * @return custom message
@@ -69,6 +69,8 @@ abstract class ModelResolver(applicationContext: ApplicationContext, properties:
 
 
     /**
+     * Resolves a model using the provided path name variable, parameter type, and request.
+     *
      * @param pathNameVariable      name of the variable on the path
      * @param paramType      parameter type (Model)
      * @param transformValue transform the current value with custom lambda function
@@ -79,7 +81,7 @@ abstract class ModelResolver(applicationContext: ApplicationContext, properties:
      * @throws Exception emit exception if model is empty and nullable is false
      */
     @Throws(Exception::class)
-    fun getModelResultFromRequest(
+    open fun getModelResultFromRequest(
         pathNameVariable: String,
         paramType: Class<*>,
         transformValue: Function<String, String>,

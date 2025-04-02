@@ -4,29 +4,39 @@ import io.github.robertomike.inject_model.configs.InjectModelProperties
 import io.github.robertomike.inject_model.exceptions.RepositoryNotFoundException
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationContext
 import org.springframework.data.repository.Repository
+import org.springframework.stereotype.Component
 import java.lang.reflect.InvocationTargetException
 
-class SpringRepositoryReflectionDriverResolver (
+/**
+ * Abstract base class for resolving models using a driver.
+ *
+ * @param applicationContext the Spring application context
+ * @param properties the InjectModel properties
+ */
+@Component
+@ConditionalOnProperty("inject-model.driver", havingValue = "reflection")
+@Deprecated("This driver is not longer recommended, use 'SpringModelDriverResolver' instead")
+class SpringRepositoryReflectionDriverResolver(
     applicationContext: ApplicationContext,
     properties: InjectModelProperties
 ) : ModelDriverResolver<Repository<*, *>>(applicationContext, properties) {
     private val modelToRepository = mutableMapOf<String, Class<out Repository<*, *>>>()
+    var packagePaths: Array<String> = arrayOf()
 
     companion object {
-        @JvmStatic
-        var packagePaths: Array<String> = arrayOf()
         lateinit var listOfRepositories: Set<Class<out Repository<*, *>>>
 
         fun isListOfRepositoryInitialized(): Boolean {
             return Companion::listOfRepositories.isInitialized
         }
 
-        @JvmStatic
-        fun setPackagePath(vararg packagePaths: String) {
-            Companion.packagePaths = arrayOf(*packagePaths)
-        }
+    }
+
+    fun setPackagePath(vararg packagePaths: String) {
+        this.packagePaths = arrayOf(*packagePaths)
     }
 
     /**

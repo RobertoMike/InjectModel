@@ -43,7 +43,7 @@ class ModelTest extends BasicTest {
     void getMethod() throws Exception {
         String methodName = "findById";
 
-        Method method = new SpringRepositoryReflectionDriverResolver(applicationContext, properties)
+        Method method = new SpringRepositoryReflectionDriverResolver()
                 .getMethod(repository, methodName, Long.class);
 
         assertNotNull(method);
@@ -54,7 +54,7 @@ class ModelTest extends BasicTest {
         String packagePath = repository.getClass().getPackage().getName();
 
         SpringRepositoryReflectionDriverResolver.setPackagePath(packagePath);
-        SpringRepositoryReflectionDriverResolver driver = new SpringRepositoryReflectionDriverResolver(applicationContext, properties);
+        SpringRepositoryReflectionDriverResolver driver = new SpringRepositoryReflectionDriverResolver();
         driver.load();
 
         assertThrows(

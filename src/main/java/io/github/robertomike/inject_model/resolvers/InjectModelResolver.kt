@@ -1,17 +1,26 @@
 package io.github.robertomike.inject_model.resolvers
 
-import io.github.robertomike.inject_model.configs.InjectModelProperties
+import io.github.robertomike.inject_model.drivers.ModelDriverResolver
 import io.github.robertomike.inject_model.resolvers.annotations.InjectModel
-import org.springframework.context.ApplicationContext
 import org.springframework.core.MethodParameter
 import org.springframework.lang.NonNull
+import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
-class InjectModelResolver(applicationContext: ApplicationContext, properties: InjectModelProperties): ModelResolver(applicationContext, properties), HandlerMethodArgumentResolver {
+/**
+ * A custom [HandlerMethodArgumentResolver] that resolves method arguments annotated with [InjectModel].
+ *
+ * This resolver uses a [ModelDriverResolver] to search for a repository method that matches the
+ * annotated parameter's type and name.
+ *
+ * @param driver the [ModelDriverResolver] instance used to resolve the repository method
+ */
+@Component
+class InjectModelResolver(driver: ModelDriverResolver<*>) : ModelResolver(driver), HandlerMethodArgumentResolver {
     /**
      * @param methodParameter to inspect if the parameter has injected model annotation
      * @return a boolean
